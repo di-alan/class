@@ -1,23 +1,48 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import OtherLayout from "../layout/other/OtherLayout";
+import HeaderLayout from "../layout/index/HeaderLayout";
+import Detail from "../views/Course/Detail";
+import Shopping from "../views/Course/Shopping";
+import Play from "../views/Course/Play";
+import Index from "../views/Index/Index";
+
 
 Vue.use(VueRouter)
 
-  const routes = [
+const routes = [
   {
-    path: '/',
-    name: 'Home',
-    component: Home
+    path:'/',
+    redirect:'/index'
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: '/index',
+    component:HeaderLayout,
+    children:[{
+      path:"",
+      component:Index,
+    },
+    ]
+  },{
+    path:"/other/:id",
+    component: OtherLayout,
+    children: [
+      {
+        path: '',
+        component: Detail
+      },
+      {
+        path:'/play/:courseId',
+        component: Play
+      },
+      {
+        path: '/shop',
+        component: Shopping
+      }
+    ]
   }
+
+
 ]
 
 const router = new VueRouter({
@@ -26,4 +51,11 @@ const router = new VueRouter({
   routes
 })
 
+
+//  Luyoude前置守卫
+// router.beforeEach((to,from,next)=>{
+//   next()
+//   next()
+//   next()
+// })
 export default router

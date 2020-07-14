@@ -1,32 +1,22 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
+  <div >
     <router-view/>
   </div>
 </template>
+<script>
+  import {creatKey} from "./util/localstore";
 
-<style lang="less">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+  export default {
+     created() {
+       //同步缓存中的数据
+       // let isLogin=localStorage.getItem(creatKey('isLogin')) || false
+       let isLogin=localStorage.getItem(creatKey('isLogin')) || false
+       this.$store.commit("setIsLogin",{isLogin})
+       let userInfo=JSON.stringify(localStorage.getItem("userInfo") || {})
+       this.$store.commit("setUserInfo",{userInfo})
+     }
   }
-}
+</script>
+<style lang="less">
+
 </style>
